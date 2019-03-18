@@ -1,0 +1,1 @@
+{{ .Params.bosh_release_job_spec | jsonify }}

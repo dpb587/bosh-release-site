@@ -1,0 +1,1 @@
+{{ .Params.bosh_release_package_spec | jsonify }}

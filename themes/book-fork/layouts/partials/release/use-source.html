@@ -1,0 +1,23 @@
+{{ $releaseName := .Site.Params.boshConfigFinal.final_name }}
+{{ $releaseVersion := "unknown" }}
+{{ with .Params.bosh_release_version }}
+  {{ $releaseVersion = . }}
+{{ else }}
+  {{ $releaseVersion = .Site.Params.boshReleaseLatest }}
+{{ end }}
+{{ range $metalink := .Site.Data.sourceRelease.metalink }}{{ range $file := $metalink.files }}{{ if eq $file.version $releaseVersion }}
+
+<p>Upload the release tarball from the command line:</p>
+
+<pre><code>bosh upload-release --name={{ $releaseName }} --version={{ $releaseVersion }} \
+  <a href="{{ ( index $file.urls 0 ).url }}">{{ ( index $file.urls 0 ).url }}</a> \
+  --sha1=sha256:{{ range $hash := .hashes }}{{ if eq $hash.type "sha-256" }}{{ $hash.hash }}{{ end }}{{ end }}</code></pre>
+
+<p>Or reference the release from a manifest:</p>
+
+<pre><code>releases:
+- name: "{{ $releaseName }}"
+  version: "{{ $releaseVersion }}"
+  url: "<a href="{{ ( index $file.urls 0 ).url }}">{{ ( index $file.urls 0 ).url }}</a>"
+  sha1: "sha256:{{ range $hash := .hashes }}{{ if eq $hash.type "sha-256" }}{{ $hash.hash }}{{ end }}{{ end }}"</code></pre>
+{{ end }}{{ end }}{{ end }}

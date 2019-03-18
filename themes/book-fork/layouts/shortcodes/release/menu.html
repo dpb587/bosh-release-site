@@ -1,0 +1,17 @@
+<ul>
+  {{ $latestVersion := .Site.Params.boshLatestVersion }}
+  {{ $first := true }}
+  {{ range ( where .Site.Pages "Type" "bosh-release" ).Reverse }}
+    <li>
+      <a href="{{ .Permalink }}">Version {{ .Params.bosh_release_version }} {{ if eq .Params.bosh_release_version $latestVersion }} (latest){{ end }}</a>
+      {{ if $first }}
+        {{ $first = false }}
+        <ul>
+          {{ range where ( where .Site.Pages "Type" "bosh-release-job" ) ".Params.bosh_release_version" "eq" .Params.bosh_release_version }}
+            <li><a href="{{ .Permalink }}"><code>{{ .Title }}</code> job</a></li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    </li>
+  {{ end }}
+</ul>

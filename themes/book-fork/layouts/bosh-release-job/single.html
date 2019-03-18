@@ -1,0 +1,155 @@
+{{ define "title" }}
+  {{ .Params.bosh_release_job_spec.name }} job{{ end }}
+
+{{ define "main" }}
+  {{ $siteParams := .Site.Params }}
+  {{ $page := . }}
+  {{ $version := .Params.bosh_release_version }}
+  {{ $job := .Params.bosh_release_job_spec.name }}
+
+  <article class="markdown">
+    <h1><code>{{ $job }}</code> job</h1>
+
+    {{ with .Params.bosh_release_job_spec.description }}
+      <p>
+        {{ . | markdownify }}
+      </p>
+    {{ end }}
+
+    <h2 id="usage">Usage</h2>
+
+    <pre><code>releases:
+- name: "{{ $siteParams.boshConfigFinal.final_name }}"
+  version: "{{ $version }}"
+instance_groups:
+- name: "{{ $job }}"
+  jobs:
+  - name: "{{ $job }}"
+    release: "{{ $siteParams.boshConfigFinal.final_name }}"
+    properties: {}</code></pre>
+
+    {{ with .Params.bosh_release_job_spec }}
+      {{ with .properties }}
+        <h2 id="properties">Properties</h2>
+
+        <p>The following properties can be configured for the job.</p>
+
+        {{ range $key, $spec := . }}
+          <h3 id="property-{{ anchorize $key }}">{{ $key }}</h3>
+
+          <div style="margin-left:2em;">
+            {{ with $spec.description }}
+              <div>{{ . | markdownify }}</div>
+            {{ end }}
+
+            {{ with $spec.help }}
+              <div>{{ . | markdownify }}</div>
+            {{ end }}
+
+            <dl>
+              {{ with $spec._hugo_default_raw }}
+                <dt>Default</dt>
+                <dd>{{ highlight . "yaml" "" }}</dd>
+              {{ end }}
+
+              {{ with $spec._hugo_example_raw }}
+                <dt>Example</dt>
+                <dd>{{ highlight . "yaml" "" }}</dd>
+              {{ end }}
+            </dl>
+          </div>
+        {{ end }}
+      {{ end }}
+
+      {{ if or .provides .consumes }}
+        <h2 id="links">Links</h2>
+
+        <p>The following links are consumed and provided.</p>
+
+        {{ with .consumes }}
+          {{ range . }}
+            <h3 id="consumes-{{ anchorize .name }}">{{ .name }}</h3>
+
+            {{ with .description }}
+              <div>{{ . | markdownify }}</div>
+            {{ end }}
+
+            <dl>
+              {{ with .type }}
+                <dt>Type</dt>
+                <dd><code>{{ . }}</code></dd>
+              {{ end }}
+            </dl>
+          {{ end }}
+        {{ end }}
+
+        {{ with .provides }}
+          {{ range . }}
+            <h3 id="provides-{{ anchorize .name }}">{{ .name }}</h3>
+
+            {{ with .description }}
+              <div>{{ . | markdownify }}</div>
+            {{ end }}
+
+            <dl>
+              {{ with .type }}
+                <dt>Type</dt>
+                <dd><code>{{ . }}</code></dd>
+              {{ end }}
+
+              {{ with .properties }}
+                <dt>Properties</dt>
+                {{ range . }}
+                  <dd><a href="#property-{{ anchorize . }}"><code>{{ . }}</code></a></dd>
+                {{ end }}
+              {{ end }}
+            </dl>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+
+      {{ with .packages }}
+        <h2 id="packages">Packages</h2>
+
+        <p>The job depends on the following packages installed in <code>/var/vcap/packages</code>.</p>
+
+        <ul>
+          {{ range . }}
+            <li><a href="{{ ( $page.GetPage ( printf "%s-package.md" . ) ).Permalink }}"><code>{{ . }}</code></a></li>
+          {{ end }}
+        </ul>
+      {{ end }}
+
+      {{ if .templates }}
+        <h2 id="templates">Templates</h2>
+
+        <p>The following templates are rendered and installed in <code>/var/vcap/jobs/{{ .name }}</code>.</p>
+
+        <ul>
+          {{ range $templateSource, $templateTarget := .templates }}
+            <li><code>{{ $templateTarget }}</code> (<a href="{{ $siteParams.boshRepo }}/{{ $siteParams.boshBlobPath }}/jobs/{{ $job }}/templates/{{ $templateSource }}">source</a>)</li>
+          {{ end }}
+        </ul>
+      {{ end }}
+
+      <h2 id="spec">Source</h2>
+
+      <p>
+        Based on <code>jobs/{{ $job }}/spec</code>
+        (<a href="{{ $siteParams.boshRepo }}/{{ $siteParams.boshBlobPath }}/jobs/{{ $job }}/spec">source</a>,
+          {{ with  $page.OutputFormats.Get "yaml" -}}
+            <a href="{{ .Permalink }}">YAML</a>
+          {{- end }},
+          {{ with  $page.OutputFormats.Get "json" -}}
+            <a href="{{ .Permalink }}">JSON</a>
+          {{- end -}}
+        ).
+      </p>
+    {{ end }}
+  </article>
+{{ end }}
+
+{{ define "toc" }}
+  TODO
+  {{ partial "docs/toc" . }}
+{{ end }}

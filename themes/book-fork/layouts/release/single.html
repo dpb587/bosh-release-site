@@ -1,0 +1,38 @@
+{{ define "meta" }}
+  {{ with index .Site.Data.repositoryTags.dates .Title }}
+    <meta name="twitter:label1" value="Released">
+    <meta name="twitter:data1" value="{{ . | dateFormat "January 2, 2006" }}">
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+  <article class="markdown">
+    {{ $x := .Title }}
+    <h1>{{ .Title }}</h1>
+
+    {{ if not ( index .Site.Data.repositoryTags.dates .Title ) }}
+      <p>
+        <em>
+          <strong>Warning:</strong>
+          This is a draft of an upcoming release and is subject to change.
+        </em>
+      </p>
+    {{ end }}
+
+    <article class="markdown">
+      {{ with index .Site.Data.repositoryTags.dates .Title }}
+        <p>Released <time datetime="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}" title="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}">{{ . | dateFormat "January 2, 2006" }}</time></p>
+      {{ end }}
+
+      {{ with .Content }}
+        <h2 id="notes">Release Notes</h2>
+
+        {{- . -}}
+      {{ end }}
+
+      <h2 id="artifacts">Artifacts</h2>
+
+      {{ partial "release/artifacts.html" . }}
+    </article>
+  </article>
+{{ end }}

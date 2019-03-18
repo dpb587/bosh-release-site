@@ -1,0 +1,9 @@
+{{ $first := true }}
+{{ range $idx, $page := sort ( where .Site.Pages "Section" "release" ).ByWeight.Reverse }}{{ with $page }}{{ if ( index .Site.Data.repositoryTags.dates .Title ) }}{{ if $first }}{{ $first = false }}
+  <p>For example, to install the latest version (<a href="{{ $page.Permalink }}">{{ $page.Title }}</a>) for macOS:</p>
+
+{{ range $metalink := .Site.Data.releaseArtifacts.metalink }}{{ range $file := $metalink.files }}{{ if eq ( printf "v%s" $file.version ) $page.Title }}{{ if and ( hasPrefix $file.name "ssoca-client-" ) ( strings.HasSuffix $file.name "-darwin-amd64" ) }}<pre><code>wget -O /usr/local/bin/ssoca {{ ( index $file.urls 0 ).url }}
+echo "{{ range $hash := .hashes }}{{ if eq $hash.type "sha-256" }}{{ $hash.hash }}{{ end }}{{ end }}  /usr/local/bin/ssoca" | shasum -c -
+chmod +x /usr/local/bin/ssoca</code></pre>{{ end }}{{ end }}{{ end }}{{ end }}
+
+{{ end }}{{ end }}{{ end }}{{ end }}
