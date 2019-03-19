@@ -1,5 +1,3 @@
-baseURL: "https://dpb587.github.io/openvpn-bosh-release/5.x/" # hostname also hard-coded in analytics.html
-title: "openvpn/5.x"
 languageCode: "en-us"
 paginate: 32
 theme: "book-fork"
@@ -28,11 +26,3 @@ outputs:
 params:
   BookShowToC: true
   BookMenuBundle: "/_menu"
-
-  boshLatestVersion: 5.3.0
-  boshConfigFinal:
-    final_name: "openvpn"
-    description: "A [BOSH](https://bosh.io/) release to help manage an [OpenVPN](https://openvpn.net/index.php/open-source.html) network with servers or clients."
-
-  boshRepo: "https://github.com/dpb587/openvpn-bosh-release"
-  boshBlobPath: "blob/v5.2.0"

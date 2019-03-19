@@ -19,13 +19,13 @@
     <h2 id="usage">Usage</h2>
 
     <pre><code>releases:
-- name: "{{ $siteParams.boshConfigFinal.final_name }}"
+- name: "{{ .Params.bosh_release_name }}"
   version: "{{ $version }}"
 instance_groups:
 - name: "{{ $job }}"
   jobs:
   - name: "{{ $job }}"
-    release: "{{ $siteParams.boshConfigFinal.final_name }}"
+    release: "{{ .Params.bosh_release_name }}"
     properties: {}</code></pre>
 
     {{ with .Params.bosh_release_job_spec }}

@@ -1,9 +1,9 @@
-{{ $releaseName := .Site.Params.boshConfigFinal.final_name }}
+{{ $releaseName := .Site.Params.boshReleaseName }}
 {{ $releaseVersion := "unknown" }}
 {{ with .Params.bosh_release_version }}
   {{ $releaseVersion = . }}
 {{ else }}
-  {{ $releaseVersion = .Site.Params.boshReleaseLatest }}
+  {{ $releaseVersion = .Site.Params.boshReleaseVersionLatest }}
 {{ end }}
 {{ range $metalink := .Site.Data.sourceRelease.metalink }}{{ range $file := $metalink.files }}{{ if eq $file.version $releaseVersion }}
 
