@@ -6,25 +6,28 @@ pwd=$PWD
 buildroot=$( mkdir -p "$1" ; realpath "$1" )
 baseURL="$2"
 
-contentroot="$buildroot/content"
-mkdir -p "$contentroot"
+dataroot="$buildroot/data"
+mkdir -p "$dataroot"
 
+contentroot="$buildroot/content"
 configroot="$buildroot/config"
-mkdir -p "$configroot"
+dataroot="$buildroot/data"
+
+echo "dataDir: $dataroot" >> $pwd/config.yml
 
 publicroot="$buildroot/public"
 mkdir -p "$publicroot"
 
 cd $contentroot
 
-firstconfig=""
+recentdir=""
 
-for config in $( cd $configroot ; ls | gsort -rV ); do
-  if [[ -z "$firstconfig" ]]; then
-    firstconfig=$configroot/$config
+for config in $( cd $configroot ; ls | sort -rV ); do
+  dir=$( echo "$config" | sed 's/\.yml//' )
+  if [[ -z "$recentdir" ]]; then
+    recentdir=$dir
   fi
 
-  dir=$( echo "$config" | sed 's/\.yml//' )
   hugo \
     --baseURL "$baseURL/$dir" \
     --destination "$publicroot/$dir" \
@@ -34,5 +37,5 @@ for config in $( cd $configroot ; ls | gsort -rV ); do
 done
 
 cat > $publicroot/index.html <<EOF
-<html><head><meta http-equiv="refresh" content="0; url=$baseURL/$dir/" /></head></html>
+<html><head><meta http-equiv="refresh" content="0; url=$baseURL/$recentdir/" /></head></html>
 EOF
