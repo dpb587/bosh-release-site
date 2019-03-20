@@ -40,10 +40,12 @@ for release_yml in $( ls releases/*/*.yml | grep -v index.yml | sort -rV ); do
   semver_patch=$( echo "$release_version" | cut -f3 -d. )
 
   if [[ -z "$latest_version" ]]; then
+    # latest version continues to pull docs from master
     latest_version=$release_version
+  else
+    # in theory, this should pull from release-specific branches instead?
+    git checkout --quiet "$commit_hash"
   fi
-
-  git checkout --quiet "$commit_hash"
 
   if [[ ! -e "$contentroot/$semver_major.x" ]]; then
     if [[ -e docs ]]; then
@@ -58,6 +60,9 @@ for release_yml in $( ls releases/*/*.yml | grep -v index.yml | sort -rV ); do
 EOF
     fi
   fi
+
+  # always pull metadata from commit
+  git checkout --quiet "$commit_hash"
 
   if [[ ! -e "$contentroot/$semver_major.x" ]]; then
     mkdir -p "$contentroot/$semver_major.x"
