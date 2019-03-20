@@ -1,4 +1,6 @@
+title: bosh-release
 languageCode: "en-us"
+pygmentsCodeFences: true
 paginate: 32
 theme: "book-fork"
 # googleAnalytics: "UA-37464314-3"
