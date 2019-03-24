@@ -1,0 +1,68 @@
+{{ define "title" }}{{ .Params.bosh_release_package_spec.name }} package{{ end }}
+
+{{ define "main" }}
+  <div class="columns">
+    <div class="column is-four-fifths">
+      <article class="content">
+        {{ partial "release/outdated-warning.html" . }}
+
+        <h1 id="overview"><code>{{ .Params.bosh_release_package_spec.name }}</code> package</h1>
+
+        {{ with .Params.bosh_release_package_spec.description }}
+          <p>
+            {{ . | markdownify }}
+          </p>
+        {{ end }}
+
+        {{ with .Params.bosh_release_package_spec }}
+          {{ with .dependencies }}
+            <h2 id="dependencies">Dependencies</h2>
+
+            <ul>
+              {{ range . }}
+                <li><a href="{{ ( $.GetPage ( printf "/packages/%s/v%s.md" . $.Params.bosh_release_version ) ).Permalink }}"><code>{{ . }}</code></a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+
+          <h2 id="spec">Source</h2>
+
+          <p>
+            Based on <code>packages/{{ .name }}/spec</code>
+            (<a href="{{ $.Site.Params.GitRepo }}/blob/{{ $.Params.bosh_release_committish }}/packages/{{ .name }}/spec">source</a>,
+              {{ with  $.OutputFormats.Get "yaml" -}}
+                <a href="{{ .Permalink }}">YAML</a>
+              {{- end }},
+              {{ with  $.OutputFormats.Get "json" -}}
+                <a href="{{ .Permalink }}">JSON</a>
+              {{- end -}}
+            ).
+          </p>
+        {{ end }}
+      </article>
+
+      {{- partial "theme/git" . -}}
+    </div>
+    {{ if default (default true .Site.Params.ThemeShowToC) .Params.ThemeShowToC }}
+      <div class="column" style="position:fixed;width:16%;right:0;">
+        <div class="content is-size-7">
+          <nav id="TableOfContents">
+            <ul>
+              <li>
+                <a href="#overview"><code>{{ .Params.bosh_release_package_spec.name }}</code> job</a>
+                <ul>
+                  {{ with .Params.bosh_release_package_spec }}
+                    {{ with .dependencies }}
+                      <li><a href="#dependencies">Dependencies</a></li>
+                    {{ end }}
+                  {{ end }}
+                  <li><a href="#spec">Source</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

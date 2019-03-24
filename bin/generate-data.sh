@@ -5,9 +5,9 @@ set -eu
 pwd=$PWD
 gitroot=$( realpath "$1" )
 artifactroot=$( realpath "$2" )
-buildroot=$( mkdir -p "$3" ; realpath "$3" )
+siteroot=$( mkdir -p "$3" ; realpath "$3" )
 
-dataroot="$buildroot/data"
+dataroot="$siteroot/data"
 mkdir -p "$dataroot"
 
 meta4-repo filter --format=json "file://$artifactroot" \

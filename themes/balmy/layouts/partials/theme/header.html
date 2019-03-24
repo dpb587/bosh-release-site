@@ -1,0 +1,30 @@
+<nav class="navbar is-info" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{{ .Site.BaseURL }}">
+      <img src="https://github.com/dpb587.png" height="28" style="border-radius:4px;margin-right:0.5rem">
+      {{ .Site.Title }}
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarExpanded">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarExpanded" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="{{ "docs" | absURL }}">docs</a>
+      <a class="navbar-item" href="{{ "releases" | absURL }}">releases</a>
+      <a class="navbar-item" href="{{ .Site.Params.GitRepo }}">github</a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://bosh.io/" style="background-color:#fff;border-radius:4px;padding:.5rem">
+          <img src="{{ "img/cff-bosh.png" | absURL }}" height="28">
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,12 @@
+{{ if .Params.hero }}
+  <section class="hero is-{{ default "dark" .Params.hero.color }} is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">{{ .Params.hero.title }}</h1>
+        {{ with .Params.hero.subtitle }}
+          <h2 class="subtitle">{{ . }}</h2>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,37 @@
+{{ define "main" }}
+  <article class="content">
+    <h1>Releases</h1>
+
+    {{- partial "theme/content" . -}}
+
+    {{ range .Paginator.Pages.Reverse }}
+      <div class="content">
+        <div class="columns">
+          <div class="column is-one-fifth">
+            <h2 id="v{{ .Title }}"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+          </div>
+          <div class="column">
+            <nav class="level">
+              <div class="level-left">
+                {{ with index .Site.Data.repositoryTags.dates .Title }}
+                  <div class="level-item">
+                    <p class="subtitle is-5">
+                      <time datetime="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}" title="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}">{{ . | dateFormat "January 2, 2006" }}</time>
+                    </p>
+                  </div>
+                {{ end }}
+                {{ if eq $.Site.Params.BOSHReleaseLatest .Params.bosh_release_spec.version }}
+                  <div class="level-item">
+                    <span class="tag is-primary is-medium">latest</span>
+                  </div>
+                {{ end }}
+              </div>
+            </nav>
+
+            {{- partial "theme/content" . -}}
+          </div>
+        </div>
+      </div>
+    {{ end }}
+  </article>
+{{ end }}

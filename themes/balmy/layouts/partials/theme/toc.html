@@ -1,0 +1,8 @@
+{{ $showToC := default (default true .Site.Params.ThemeShowToC) .Params.ThemeShowToC }}
+{{ if and $showToC .Page.TableOfContents }}
+  <div class="column" style="position:fixed;width:16%;right:0;">
+    <div class="content is-size-7">
+      {{ .Page.TableOfContents }}
+    </div>
+  </div>
+{{ end }}

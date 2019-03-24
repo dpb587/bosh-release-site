@@ -1,0 +1,24 @@
+{{ if or .GitInfo .Site.Params.GitEditPath }}
+  <div class="card is-size-7">
+    {{ with .Site.Params.GitEditPath }}
+      <div class="card-content">
+        <p>
+          <a href="{{ $.Site.Params.GitRepo }}/{{ . }}/{{ $.File.Path }}" target="_blank" rel="noopener">
+            <i class="fas fa-code-branch"></i> Contribute changes to this page
+          </a>
+        </p>
+      </div>
+    {{ end }}
+    {{ with .Site.Params.GitCommitPath }}
+      {{ with $.GitInfo }}
+        <div class="card-content">
+          <p>
+            <a href="{{ $.Site.Params.GitRepo }}/{{ $.Site.Params.GitCommitPath }}/{{ .Hash }}" title="Last modified {{ .AuthorDate.Local.Format "January 2, 2006 15:04 MST" }} by {{ .AuthorName }}" target="_blank" rel="noopener">
+              <i class="fas fa-pen-fancy"></i> Last Updated {{ .AuthorDate.Local.Format "Last Modified Jan 2, 2006" }}
+            </a>
+          </p>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+{{ end }}

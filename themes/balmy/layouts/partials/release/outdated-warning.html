@@ -1,0 +1,7 @@
+{{ if ne .Params.bosh_release_version .Site.Params.BOSHReleaseLatest }}
+  <article class="message is-warning">
+    <div class="message-body">
+      This document is describing an outdated version (v{{ .Params.bosh_release_version }}). Please consider switching to the latest version (<a href="{{ printf "/releases/v%s/" .Site.Params.BOSHReleaseLatest | relURL }}">v{{ .Site.Params.BOSHReleaseLatest }}</a>).
+    </div>
+  </article>
+{{ end }}

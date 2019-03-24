@@ -1,14 +1,16 @@
-title: bosh-release
+title: openvpn-bosh-release
 languageCode: "en-us"
 pygmentsCodeFences: true
 paginate: 32
-theme: "book-fork"
+theme: "balmy"
+enableGitInfo: true
 # googleAnalytics: "UA-37464314-3"
 
 disableKinds:
-- taxonomy
-- taxonomyTerm
 - sitemap
+
+taxonomies:
+  release: releases
 
 mediaTypes:
   application/yaml:
@@ -26,5 +28,13 @@ outputs:
   - YAML
 
 params:
-  BookShowToC: true
-  BookMenuBundle: "/_menu"
+  ThemeShowToC: true
+  ThemeIncludeMenu: "/_menu"
+  CopyrightNotice: |
+    The source code is licensed [Apache License, Version 2.0](https://github.com/dpb587/openvpn-bosh-release/blob/master/LICENSE). The website content is licensed [CC BY NC SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/).<br>
+    [OpenVPN BOSH Release](https://github.com/dpb587/openvpn-bosh-release) by [Danny Berger](https://dpb587.me/).
+  GitRepo: https://github.com/dpb587/openvpn-bosh-release
+  GitEditPath: blob/master
+  GitCommitPath: commit
+  BOSHReleaseName: openvpn
+  BOSHReleaseLatest: 5.3.0

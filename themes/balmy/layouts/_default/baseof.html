@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{{- partial "theme/helpers" -}}
+<html>
+  <head>
+    {{- partial "theme/html-head" . -}}
+    <style type="text/css">
+      nav#TableOfContents > ul,
+      nav#TableOfContents > ul > li > ul {
+        list-style: none;
+        margin-left: 0;
+      }
+      nav#TableOfContents > ul > li > a {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    {{- partial "theme/header" . -}}
+
+    {{- partial "theme/hero" . -}}
+
+    <section class="section">
+      <div class="columns">
+        <div class="column">
+          {{ $active := .RelPermalink }}
+          {{ if .Site.Params.ThemeIncludeMenu }}
+            {{ with .Site.GetPage .Site.Params.ThemeIncludeMenu }}
+              <aside class="menu">
+                {{- replace ( replace ( replace .Content ( printf "<a href=\"%s\">" $active ) ( printf "<a class=\"is-active\" href=\"%s\">" $active ) ) "<ul>" "<ul class=\"menu-list\">" ) "<p>" "<p class=\"menu-label\">" | safeHTML -}}
+              </aside>
+            {{ end }}
+          {{ end }}
+        </div>
+        <div class="column is-four-fifths">
+          {{ block "main" . }}{{ end }}
+        </div>
+      </div>
+    </section>
+    {{- partial "theme/footer" . -}}
+  </body>
+</html>

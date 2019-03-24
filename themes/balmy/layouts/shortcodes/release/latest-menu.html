@@ -1,0 +1,9 @@
+{{ $latest := index .Site.Taxonomies.releases ( printf "v%s" $.Site.Params.BOSHReleaseLatest ) }}
+
+<p class="menu-label">Latest Release (v{{ $.Site.Params.BOSHReleaseLatest }})</p>
+<ul class="menu-list">
+  <li><a href="{{ printf "/releases/v%s/" $.Site.Params.BOSHReleaseLatest | relURL }}">Usage</a></li>
+  {{ range where $latest "Type" "==" "jobs" }}
+    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+  {{ end }}
+</ul>
