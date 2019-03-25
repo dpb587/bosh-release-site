@@ -2,7 +2,7 @@
   <div class="navbar-brand">
     <a class="navbar-item" href="{{ .Site.BaseURL }}">
       {{ with .Site.Params.ThemeBrandIcon }}
-        <img height="28" src="{{ . | absURL }}" style="border-radius:4px;margin-right:0.5rem">
+        <img height="28" src="{{ . | relURL }}" style="border-radius:4px;margin-right:0.5rem">
       {{ end }}
       {{ .Site.Title }}
     </a>
@@ -17,15 +17,15 @@
   <div id="navbarExpanded" class="navbar-menu">
     <div class="navbar-start">
       {{ range .Site.Params.ThemeNavItems }}
-        <a class="navbar-item" href="{{ .url | absURL }}">{{ .title }}</a>
+        <a class="navbar-item" href="{{ .url | relURL }}">{{ .title }}</a>
       {{ end }}
     </div>
 
     <div class="navbar-end">
       {{- range .Site.Params.ThemeNavBadges -}}
         <div class="navbar-item" style="padding-left:0">
-          <a class="navbar-item" href="{{ .url | absURL }}" title="{{ .title }}" style="{{ with .color }}background-color:{{ . }};{{ end }}border-radius:4px;padding:.5rem">
-            <img height="28" src="{{ .img | absURL }}" style="border-radius:4px">
+          <a class="navbar-item" href="{{ .url | relURL }}" title="{{ .title }}" style="{{ with .color }}background-color:{{ . }};{{ end }}border-radius:4px;padding:.5rem">
+            <img height="28" src="{{ .img | relURL }}" style="border-radius:4px">
           </a>
         </div>
       {{- end -}}
