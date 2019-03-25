@@ -1,2 +1,7 @@
-/build
+/config.local.yml
+/content
+/data
+/public
 /resources
+/static
+/tmp

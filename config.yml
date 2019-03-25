@@ -1,14 +1,14 @@
-title: bosh-release
+title: example
 languageCode: "en-us"
 pygmentsCodeFences: true
-paginate: 32
-theme: "book-fork"
-# googleAnalytics: "UA-37464314-3"
+paginate: 1024
+theme: "balmy"
 
 disableKinds:
-- taxonomy
-- taxonomyTerm
 - sitemap
+
+taxonomies:
+  release: releases
 
 mediaTypes:
   application/yaml:
@@ -26,5 +26,18 @@ outputs:
   - YAML
 
 params:
-  BookShowToC: true
-  BookMenuBundle: "/_menu"
+  ThemeShowToC: true
+  ThemeIncludeMenu: "/docs/latest/_menu"
+  ThemeNavItems: []
+  ThemeNavBadges: []
+
+  ShowContributeLinks: true
+  RequireContributeLinkMap: false
+
+  CopyrightNotice: ""
+  GitRepo: https://github.com/dpb587/bosh-release-site
+  GitEditPath: blob/master
+  GitCommitPath: commit
+
+  boshReleaseName: caddy
+  boshReleaseVersion: ""

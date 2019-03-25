@@ -1,0 +1,92 @@
+{{ define "main" }}
+  <div class="columns">
+    <div class="column is-four-fifths">
+      <article class="content">
+        {{ partial "release/outdated-warning.html" . }}
+
+        <h1 id="overview">{{ .Params.boshReleaseName }}/{{ .Params.boshReleaseVersion }}</h1>
+
+        {{ with index .Site.Data.repo.tags.dates .Title }}
+          <p>Released <time datetime="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}" title="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}">{{ . | dateFormat "January 2, 2006" }}</time></p>
+        {{ end }}
+
+        {{ with .Content }}
+          <h2 id="notes">Release Notes</h2>
+
+          {{- . -}}
+        {{ end }}
+
+        <h2 id="usage">Usage</h2>
+
+        {{ partial "release/usage.html" . }}
+
+        <h2 id="jobs">Jobs</h2>
+
+        {{ range where ( index $.Site.Taxonomies.releases .Title ).Pages "Type" "==" "jobs" }}
+          <h3 id="{{ .Title | anchorize }}"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+          {{ with .Params.boshReleaseJobSpec.description }}
+            {{ index ( split . "\n") 0 | markdownify }}
+          {{ end }}
+        {{ end }}
+
+        <h2 id="packages">Packages</h2>
+
+        {{ range where ( index $.Site.Taxonomies.releases .Title ).Pages "Type" "==" "packages" }}
+          <h3 id="{{ .Title | anchorize }}"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+          {{ with .Params.boshReleasePackageSpec.description }}
+            {{ index ( split . "\n") 0 | markdownify }}
+          {{ end }}
+        {{ end }}
+
+        <h2 id="spec">Source</h2>
+
+        {{ $source := printf "releases/%s/%s-%s.yml" .Params.boshReleaseName .Params.boshReleaseName .Params.boshReleaseVersion }}
+        <p>
+          Based on <code>{{ $source }}</code>
+          (<a href="{{ .Site.Params.GitRepo }}/blob/master/{{ $source }}">source</a>).
+        </p>
+      </article>
+    </div>
+    {{ if default (default true .Site.Params.ThemeShowToC) .Params.ThemeShowToC }}
+      <div class="column table-of-contents">
+        <div class="content is-size-7">
+          <nav id="TableOfContents">
+            <ul>
+              <li>
+                <a href="#overview">{{ .Params.boshReleaseName }}/{{ .Params.boshReleaseVersion }}</a>
+                <ul>
+                  {{ with .Content }}
+                    <li><a href="#notes">Release Notes</a></li>
+                  {{ end }}
+                  {{ with .Params.boshReleasePackageSpec }}
+                    {{ with .dependencies }}
+                      <li><a href="#dependencies">Dependencies</a></li>
+                    {{ end }}
+                  {{ end }}
+                  <li><a href="#usage">Usage</a></li>
+                  <li>
+                    <a href="#jobs">Jobs</a>
+                    <ul>
+                      {{ range where ( index $.Site.Taxonomies.releases .Title ).Pages "Type" "==" "jobs" }}
+                        <li><a href="#{{ .Title | anchorize }}">{{ .Title }}</a></li>
+                      {{ end }}
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#packages">Packages</a>
+                    <ul>
+                      {{ range where ( index $.Site.Taxonomies.releases .Title ).Pages "Type" "==" "packages" }}
+                        <li><a href="#{{ .Title | anchorize }}">{{ .Title }}</a></li>
+                      {{ end }}
+                    </ul>
+                  </li>
+                  <li><a href="#spec">Source</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

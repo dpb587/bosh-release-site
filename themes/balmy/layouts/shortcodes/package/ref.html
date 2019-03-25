@@ -1,0 +1,9 @@
+{{- $package := .Get "package" -}}
+{{- $version := default $.Site.Params.boshReleaseVersion ( .Get "version" ) -}}
+
+{{- $page := index ( where ( where ( index .Site.Taxonomies.releases ( printf "v%s" $version ) ) "Type" "==" "packages" ) "Params.boshReleasePackageSpec.name" "==" $package ) 0 -}}
+{{- with $page -}}
+  {{- .Permalink -}}
+{{- else -}}
+  {{- errorf "%s: failed to render shortcode 'package/ref': unable to find package '%s' from version '%s'" .Page.File.Path $package $version -}}
+{{- end -}}

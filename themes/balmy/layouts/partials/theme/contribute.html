@@ -1,0 +1,25 @@
+{{ if default true .Site.Params.ShowContributeLinks }}
+  {{ $file := .File.Path }}
+  {{ $required := default false .Site.Params.RequireContributeLinkMap }}
+
+  {{ with .Site.Data.contributeLinks }}
+    {{ with index . $file }}
+      {{ $required = false }}
+      {{ $file = . }}
+    {{ end }}
+  {{ end }}
+
+  {{ if eq $required false }}
+    {{ $url := $file }}
+    {{ $parsed := urls.Parse $url }}
+    {{ if eq $parsed.Scheme "" }}
+      {{ $url = printf "%s/%s/%s" .Site.Params.GitRepo .Site.Params.GitEditPath $file }}
+    {{ end }}
+
+    <div class="is-size-5 is-pulled-right">
+      <a href="{{ $url }}" rel="noopener" target="_blank" title="Contribute changes to this page" style="opacity:0.7">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+    </div>
+  {{ end }}
+{{ end }}

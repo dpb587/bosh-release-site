@@ -1,0 +1,10 @@
+{{ define "main" }}
+  <div class="columns">
+    <div class="column is-four-fifths">
+      {{- partial "theme/contribute" . -}}
+
+      {{- partial "theme/content" . -}}
+    </div>
+    {{- partial "theme/toc" . -}}
+  </div>
+{{ end }}

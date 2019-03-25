@@ -1,0 +1,207 @@
+{{ define "title" }}{{ .Params.boshReleaseJobSpec.name }} job{{ end }}
+
+{{ define "main" }}
+  <div class="columns">
+    <div class="column is-four-fifths">
+      {{- partial "theme/contribute" . -}}
+
+      <article class="content">
+        {{ partial "release/outdated-warning.html" . }}
+
+        <h1 id="overview"><code>{{ .Params.boshReleaseJobSpec.name }}</code> job</h1>
+
+        {{ with .Params.boshReleaseJobSpec.description }}
+          <p>
+            {{ . | markdownify }}
+          </p>
+        {{ end }}
+
+        <h2 id="usage">Usage</h2>
+
+        {{ highlight ( printf `releases:
+- name: "%s"
+  version: "%s"
+instance_groups:
+- name: "%s"
+  jobs:
+  - name: "%s"
+    release: "%s"
+    properties: {}` .Params.boshReleaseName .Params.boshReleaseVersion .Params.boshReleaseJobSpec.name .Params.boshReleaseJobSpec.name .Params.boshReleaseName ) "yaml" "" }}
+
+        {{ with .Params.boshReleaseJobSpec }}
+          {{ with .properties }}
+            <h2 id="properties">Properties</h2>
+
+            <p>The following properties can be configured for the job.</p>
+
+            {{ range $key, $spec := . }}
+              <h3 id="property-{{ anchorize $key }}">{{ $key }}</h3>
+
+              {{ with $spec.description }}
+                <div class="content">{{ . | markdownify }}</div>
+              {{ end }}
+
+              {{ with $spec.help }}
+                <div class="content">{{ . | markdownify }}</div>
+              {{ end }}
+
+              {{ with $spec._hugo_default_raw }}
+                <div class="columns is-vcentered">
+                  <div class="column is-one-fifth has-text-right has-text-left-mobile">Default</div>
+                  <div class="column">{{ highlight . "yaml" "" }}</div>
+                </div>
+              {{ end }}
+
+              {{ with $spec._hugo_example_raw }}
+                <div class="columns is-vcentered">
+                  <div class="column is-one-fifth has-text-right has-text-left-mobile">Example</div>
+                  <div class="column">{{ highlight . "yaml" "" }}</div>
+                </div>
+              {{ end }}
+            {{ end }}
+          {{ end }}
+
+
+          {{ with .consumes }}
+            <h2 id="consumes">Consumed Links</h2>
+
+            <p>The job consumes the following links.</p>
+
+            {{ range . }}
+              <h3 id="consumes-{{ .name | anchorize }}">{{ .name }} (<code>{{ .type }}</code>)</h3>
+
+              {{ with .description }}
+                <div class="content">{{ . | markdownify }}</div>
+              {{ end }}
+            {{ end }}
+          {{ end }}
+
+          {{ with .provides }}
+            <h2 id="provides">Provided Links</h2>
+
+            <p>The job provides the following links.</p>
+
+            {{ range . }}
+              <h3 id="provides-{{ .name | anchorize }}">{{ .name }} (<code>{{ .type }}</code>)</h3>
+
+              {{ with .description }}
+                <div class="content">{{ . | markdownify }}</div>
+              {{ end }}
+
+              {{ with .properties }}
+                <div class="columns">
+                  <div class="column is-one-fifth has-text-right has-text-left-mobile">Properties</div>
+                  <div class="column">
+                    {{ range . }}
+                      <dd><a href="#property-{{ anchorize . }}">{{ . }}</a></dd>
+                    {{ end }}
+                  </div>
+                </div>
+              {{ end }}
+            {{ end }}
+          {{ end }}
+
+          <h2 id="runtime">Runtime</h2>
+
+          {{ if .templates }}
+            <h3 id="templates">Templates</h3>
+
+            <p>The following templates are rendered and installed in <code>/var/vcap/jobs/{{ .name }}</code>.</p>
+
+            <ul>
+              {{ range $templateSource, $templateTarget := .templates }}
+                <li><code>{{ $templateTarget }}</code> (<a href="{{ $.Site.Params.GitRepo }}/blob/v{{ $.Params.boshReleaseVersion }}/jobs/{{ $.Params.boshReleaseJobSpec.name }}/templates/{{ $templateSource }}">source</a>)</li>
+              {{ end }}
+            </ul>
+          {{ end }}
+
+          {{ with .packages }}
+            <h3 id="packages">Packages</h3>
+
+            <p>The job depends on the following packages installed in <code>/var/vcap/packages</code>.</p>
+
+            <ul>
+              {{ range . }}
+                <li><a href="{{ printf "/packages/%s/v%s/" . $.Params.boshReleaseVersion | relURL }}"><code>{{ . }}</code></a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+
+          <h2 id="spec">Source</h2>
+
+          <p>
+            Based on <code>jobs/{{ .name }}/spec</code>
+            (<a href="{{ $.Site.Params.GitRepo }}/blob/{{ $.Params.boshReleaseCommittish }}/jobs/{{ .name }}/spec">source</a>,
+              {{ with  $.OutputFormats.Get "yaml" -}}
+                <a href="{{ .Permalink }}">YAML</a>
+              {{- end }},
+              {{ with  $.OutputFormats.Get "json" -}}
+                <a href="{{ .Permalink }}">JSON</a>
+              {{- end -}}
+            ).
+          </p>
+        {{ end }}
+      </article>
+    </div>
+    {{ if default (default true .Site.Params.ThemeShowToC) .Params.ThemeShowToC }}
+      <div class="column table-of-contents">
+        <div class="content is-size-7">
+          <nav id="TableOfContents">
+            <ul>
+              <li>
+                <a href="#overview"><code>{{ .Params.boshReleaseJobSpec.name }}</code> job</a>
+                <ul>
+                  <li><a href="#usage">Usage</a></li>
+                  {{ with .Params.boshReleaseJobSpec }}
+                    {{ with .properties }}
+                      <li>
+                        <a href="#properties">Properties</a>
+                        <ul>
+                          {{ range $key, $spec := . }}
+                            <li><a href="#property-{{ anchorize $key }}">{{ $key }}</a></li>
+                          {{ end }}
+                        </ul>
+                      </li>
+                    {{ end }}
+                    {{ with .consumes }}
+                      <li>
+                        <a href="#consumes">Consumed Links</a>
+                        <ul>
+                          {{ range . }}
+                            <li><a href="#consumes-{{ .name | anchorize }}">{{ .name }} (<code>{{ .type }}</code>)</a></li>
+                          {{ end }}
+                        </ul>
+                      </li>
+                    {{ end }}
+                    {{ with .provides }}
+                      <li>
+                        <a href="#provides">Provided Links</a>
+                        <ul>
+                          {{ range . }}
+                            <li><a href="#provides-{{ .name | anchorize }}">{{ .name }} (<code>{{ .type }}</code>)</a></li>
+                          {{ end }}
+                        </ul>
+                      </li>
+                    {{ end }}
+                    <li>
+                      <a href="#runtime">Runtime</a>
+                      <ul>
+                        {{ with .templates }}
+                          <li><a href="#templates">Templates</a></li>
+                        {{ end }}
+                        {{ with .packages }}
+                          <li><a href="#packages">Packages</a></li>
+                        {{ end }}
+                      </ul>
+                    </li>
+                    <li><a href="#spec">Source</a></li>
+                  {{ end }}
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

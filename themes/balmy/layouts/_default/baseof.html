@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{{- partial "theme/helpers" -}}
+<html>
+  <head>
+    {{- partial "theme/html-head" . -}}
+    {{ template "_internal/google_analytics_async.html" . }}
+    <style type="text/css">
+      .table-of-contents {
+        position: fixed;
+        width: 16%;
+        right: 0;
+        bottom: 2rem;
+        overflow: auto;
+        top: 60px;
+        padding-top: 3rem;
+      }
+      nav#TableOfContents > ul,
+      nav#TableOfContents > ul > li > ul {
+        list-style: none;
+        margin-left: 0;
+      }
+      nav#TableOfContents > ul > li > a {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    {{- partial "theme/header" . -}}
+
+    {{- partial "theme/hero" . -}}
+
+    <section class="section">
+      <div class="columns">
+        <div class="column">
+          {{- partial "theme/menu" . -}}
+        </div>
+        <div class="column is-four-fifths">
+          {{ block "main" . }}{{ end }}
+        </div>
+      </div>
+    </section>
+    {{- partial "theme/footer" . -}}
+  </body>
+</html>

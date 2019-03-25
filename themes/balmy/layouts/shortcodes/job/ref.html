@@ -1,0 +1,9 @@
+{{- $job := .Get "job" -}}
+{{- $version := default $.Site.Params.boshReleaseVersion ( .Get "version" ) -}}
+
+{{- $page := index ( where ( where ( index .Site.Taxonomies.releases ( printf "v%s" $version ) ) "Type" "==" "jobs" ) "Params.boshReleaseJobSpec.name" "==" $job ) 0 -}}
+{{- with $page -}}
+  {{- .Permalink -}}
+{{- else -}}
+  {{- errorf "%s: failed to render shortcode 'job/ref': unable to find job '%s' from version '%s'" .Page.File.Path $job $version -}}
+{{- end -}}

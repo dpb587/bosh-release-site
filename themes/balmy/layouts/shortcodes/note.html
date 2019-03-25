@@ -1,0 +1,13 @@
+{{- $type := default "info" ( .Get "type" ) -}}
+{{- $title := .Get "title" -}}
+
+<article class="message is-{{ $type }}">
+  {{- with $title -}}
+    <div class="message-header">
+      <p>{{ . }}</p>
+    </div>
+  {{- end -}}
+  <div class="message-body">
+    {{ .Inner | markdownify }}
+  </div>
+</article>
