@@ -5,6 +5,8 @@ set -eu
 sitedir="$( realpath "$PWD" )"
 repo="$1"
 
+go build -o bin/generate-release-version-content ./src/generate-release-version-content.go
+
 cd "$repo"
 
 mkdir -p "$sitedir/tmp"
@@ -21,7 +23,7 @@ for release_yml in $( ls releases/*/*.yml | grep -v index.yml | sort -rV ); do
 
   git checkout --quiet "$commit_hash" || continue
 
-  go run "$sitedir/src/generate-release-version-content.go" "$sitedir/tmp/release.yml" "$sitedir/content"
+  "$sitedir/bin/generate-release-version-content" "$sitedir/tmp/release.yml" "$sitedir/content"
 
   git checkout --quiet master
 
