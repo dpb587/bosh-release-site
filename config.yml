@@ -6,6 +6,7 @@ theme: "balmy"
 
 disableKinds:
 - sitemap
+- RSS
 
 taxonomies:
   release: releases
