@@ -1,6 +1,6 @@
 {{ $showToC := default (default true .Site.Params.ThemeShowToC) .Params.ThemeShowToC }}
 {{ if and $showToC .Page.TableOfContents }}
-  <div class="column table-of-contents">
+  <div class="column table-of-contents is-hidden-mobile">
     <div class="content is-size-7">
       {{ .Page.TableOfContents }}
     </div>
