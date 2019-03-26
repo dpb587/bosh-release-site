@@ -4,6 +4,8 @@
       <article class="content">
         {{ partial "release/outdated-warning.html" . }}
 
+        {{- partial "theme/contribute" . -}}
+
         <h1 id="overview">{{ .Params.boshReleaseName }}/{{ .Params.boshReleaseVersion }}</h1>
 
         {{ with index .Site.Data.repo.tags.dates .Title }}
