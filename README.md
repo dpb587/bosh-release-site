@@ -18,6 +18,7 @@ To provide more information about aspects of your release, include a `descriptio
  * link consumer definitions
  * packages
 
+
 #### Job Properties
 
 In addition to the `description` field of a property, include an `example` field to provide a concrete value to help readers understand expected values in complex properties. Be sure to use the actual type of value and data you would expect your users to provide (do not provide a string block of YAML data).
