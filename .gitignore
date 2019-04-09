@@ -1,4 +1,5 @@
 /config.local.yml
+/config.local.*.yml
 /content
 /data
 /public

@@ -1,7 +1,7 @@
 {{ $releaseName := default .Site.Params.boshReleaseName ( echoParam .Params "boshReleaseName" ) }}
-{{ $releaseVersion := default .Site.Params.boshReleaseVersion ( echoParam .Params "boshReleaseVersion" ) }}
+{{ $releaseVersion := default .Site.Params.releaseVersionLatest ( echoParam .Params "boshReleaseVersion" ) }}
 
-{{ range $metalink := .Site.Data.releases.artifacts.metalink }}{{ range $file := $metalink.files }}{{ if eq $file.version $releaseVersion }}
+{{ range $metalink := .Site.Data.releases.artifacts }}{{ range $file := $metalink.files }}{{ if eq $file.version $releaseVersion }}
 
 {{ $sha1 := "" }}
 {{ range $hash := .hashes }}{{ if eq $sha1 "" }}{{ if eq $hash.type "sha-256" }}{{ $sha1 = printf "sha256:%s" $hash.hash }}{{ else if eq $hash.type "sha-1" }}{{ $sha1 = $hash.hash }}{{ end }}{{ end }}{{ end }}

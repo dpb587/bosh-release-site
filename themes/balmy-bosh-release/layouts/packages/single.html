@@ -27,6 +27,16 @@
             </ul>
           {{ end }}
 
+          {{ with .files }}
+            <h2 id="files">Files</h2>
+
+            <ul>
+              {{ range . }}
+                <li><code>{{ . }}</code></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+
           <h2 id="spec">Source</h2>
 
           <p>
@@ -54,6 +64,9 @@
                   {{ with .Params.boshReleasePackageSpec }}
                     {{ with .dependencies }}
                       <li><a href="#dependencies">Dependencies</a></li>
+                    {{ end }}
+                    {{ with .files }}
+                      <li><a href="#files">Files</a></li>
                     {{ end }}
                   {{ end }}
                   <li><a href="#spec">Source</a></li>

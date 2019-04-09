@@ -2,7 +2,7 @@ title: example
 languageCode: "en-us"
 pygmentsCodeFences: true
 paginate: 1024
-theme: "balmy"
+theme: [balmy]
 
 disableKinds:
 - sitemap
@@ -39,6 +39,3 @@ params:
   GitRepo: https://github.com/dpb587/bosh-release-site
   GitEditPath: blob/master
   GitCommitPath: commit
-
-  boshReleaseName: caddy
-  boshReleaseVersion: ""

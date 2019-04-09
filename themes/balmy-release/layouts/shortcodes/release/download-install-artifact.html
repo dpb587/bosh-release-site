@@ -1,0 +1,20 @@
+{{ $fileName := .Get "file" }}
+{{ $fileVersion := default .Site.Params.releaseVersionLatest ( .Get "version" ) }}
+{{ $install := .Get "install" }}
+
+{{ $first := true }}
+{{- range $metalink := .Site.Data.releases.artifacts -}}
+  {{- range $file := $metalink.files -}}
+    {{- if eq $file.version $fileVersion -}}
+      {{ if ne ( first 1 ( findRE $fileName $file.name ) ) nil -}}
+        {{- if eq $first true -}}
+          {{- $first = false -}}
+            <div class="highlight">
+              <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget -O /usr/local/bin/ssoca {{ ( index $file.urls 0 ).url }}
+echo "{{ range $hash := .hashes }}{{ if eq $hash.type "sha-256" }}{{ $hash.hash }}{{ end }}{{ end }}  {{ $install }}" | shasum -c -
+chmod +x {{ $install }}</code></pre></div>
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

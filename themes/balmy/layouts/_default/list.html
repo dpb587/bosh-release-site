@@ -1,9 +1,40 @@
+{{ define "title" -}}
+  {{- $indexPage := .GetPage "_index.md" -}}
+  {{- with $indexPage -}}
+    {{- .Title -}}
+  {{- else -}}
+    {{- .Title -}}
+  {{- end -}}
+{{- end }}
+
 {{ define "main" }}
+  {{ $indexPage := .GetPage "_index.md" }}
   <div class="columns">
     <div class="column is-four-fifths">
-      {{- partial "theme/contribute" . -}}
+      {{ with $indexPage }}
+        {{- partial "theme/contribute" $indexPage -}}
+        {{- partial "theme/content" . -}}
+      {{ end }}
 
-      {{- partial "theme/content" . -}}
+      {{ $pages := .Paginator.Pages }}
+      {{ with $indexPage }}
+        {{ if eq .Params.reverse_ordering true }}
+          {{ $pages = $pages.Reverse }}
+        {{ end }}
+      {{ end }}
+
+      {{ $first := false }}
+      {{ if eq $indexPage.Params.list_focus_first true }}
+        {{ $first = true }}
+      {{ end }}
+      {{ range $pages }}
+        {{ if $first }}
+          {{ $first = false }}
+          {{ .Render "list-item-focus" }}
+        {{ else }}
+          {{ .Render "list-item" }}
+        {{ end }}
+      {{ end }}
     </div>
     {{- partial "theme/toc" . -}}
   </div>

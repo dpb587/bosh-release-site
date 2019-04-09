@@ -4,8 +4,8 @@
     {{ with .Site.GetPage .Site.Params.ThemeIncludeMenu }}
       {{- replace ( replace ( replace .Content ( printf "<a href=\"%s\">" $active ) ( printf "<a class=\"is-active\" href=\"%s\">" $active ) ) "<ul>" "<ul class=\"menu-list\">" ) "<p>" "<p class=\"menu-label\">" | safeHTML -}}
     {{ else }}
-      {{ $version := default .Site.Params.boshReleaseVersion .Params.boshReleaseVersion }}
-      {{ if ne $version .Site.Params.boshReleaseVersion }}
+      {{ $version := default .Site.Params.releaseVersionLatest .Params.boshReleaseVersion }}
+      {{ if ne $version .Site.Params.releaseVersionLatest }}
         <ul>
           <li><a href="{{ "/releases/" | relURL }}"><i class="fas fa-angle-double-left"></i> Back to Latest Releases</a></li>
         </ul>

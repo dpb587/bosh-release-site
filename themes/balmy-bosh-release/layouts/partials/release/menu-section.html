@@ -1,8 +1,8 @@
-{{ $version := default .Site.Params.boshReleaseVersion ( .Scratch.Get "release_menu_section_version" ) }}
+{{ $version := default .Site.Params.releaseVersionLatest ( .Scratch.Get "release_menu_section_version" ) }}
 {{ $latest := index .Site.Taxonomies.releases ( printf "v%s" $version ) }}
 {{ $relPermalink := .Page.RelPermalink }}
 
-<p class="menu-label">{{ if eq $version .Site.Params.boshReleaseVersion }}Latest{{ else }}Previous{{ end }} Release (v{{ $version }})</p>
+<p class="menu-label">{{ if eq $version .Site.Params.releaseVersionLatest }}Latest{{ else }}Previous{{ end }} Release (v{{ $version }})</p>
 <ul class="menu-list">
   {{ $relURL := printf "%s" ( printf "/releases/v%s/" $version | relURL ) }}
   <li><a{{ if eq $relPermalink $relURL }} class="is-active"{{ end }} href="{{ $relURL }}">Overview</a></li>

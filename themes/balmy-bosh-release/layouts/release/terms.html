@@ -1,0 +1,59 @@
+{{ define "main" }}
+  <div class="columns">
+    <div class="column is-four-fifths">
+      <article class="content">
+        <h1 id="releases">Releases</h1>
+
+        {{- partial "theme/content" . -}}
+
+        {{ range .Paginator.Pages.ByWeight.Reverse }}
+          <div class="content">
+            <div class="columns">
+              <div class="column is-one-fifth">
+                <h2 id="v{{ .Params.boshReleaseSpec.version }}"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+              </div>
+              <div class="column">
+                <nav class="level">
+                  <div class="level-left">
+                    {{ with index .Site.Data.repo.tags.dates .Title }}
+                      <div class="level-item">
+                        <p class="subtitle is-5">
+                          <strong><time datetime="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}" title="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}">{{ . | dateFormat "January 2, 2006" }}</strong></time>
+                        </p>
+                      </div>
+                    {{ end }}
+                    {{ if eq $.Site.Params.releaseVersionLatest .Params.boshReleaseSpec.version }}
+                      <div class="level-item">
+                        <span class="tag is-primary is-medium">latest</span>
+                      </div>
+                    {{ end }}
+                  </div>
+                </nav>
+
+                {{- partial "theme/content" . -}}
+              </div>
+            </div>
+          </div>
+        {{ end }}
+      </article>
+    </div>
+    {{ if default (default true .Site.Params.ThemeShowToC) .Params.ThemeShowToC }}
+      <div class="column table-of-contents is-hidden-mobile">
+        <div class="content is-size-7">
+          <nav id="TableOfContents">
+            <ul>
+              <li>
+                <a href="#releases">Releases</a>
+                <ul>
+                  {{ range .Paginator.Pages.Reverse }}
+                    <li><a href="#v{{ .Params.boshReleaseSpec.version }}">{{ .Title }}</a></li>
+                  {{ end }}
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

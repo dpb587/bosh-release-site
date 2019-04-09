@@ -1,6 +1,6 @@
-# bosh-release-docs
+# hugo-balmy-site
 
-A [Hugo](https://gohugo.io/) theme, scripts, and conventions for providing a documentation site about a BOSH release.
+A set of [Hugo](https://gohugo.io/) themes, scripts, and conventions for providing technical documentation for a few different types of products.
 
 **Unstable** -- this is experimental while I'm trying it out in a few of my releases. Eventually it might be something which is more easily reusable by other releases. Get in touch if you're interested in helping provide feedback or improvements to help that process.
 
