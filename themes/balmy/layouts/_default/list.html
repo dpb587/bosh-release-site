@@ -23,17 +23,8 @@
         {{ end }}
       {{ end }}
 
-      {{ $first := false }}
-      {{ if eq $indexPage.Params.list_focus_first true }}
-        {{ $first = true }}
-      {{ end }}
       {{ range $pages }}
-        {{ if $first }}
-          {{ $first = false }}
-          {{ .Render "list-item-focus" }}
-        {{ else }}
-          {{ .Render "list-item" }}
-        {{ end }}
+        {{ .Render "list-item" }}
       {{ end }}
     </div>
     {{- partial "theme/toc" . -}}

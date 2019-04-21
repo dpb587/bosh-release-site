@@ -1,14 +1,41 @@
-<nav class="level">
-  <div class="level-left">
-    <div class="level-item">
-      <p class="subtitle is-5">
-        <a href="{{ .Permalink }}">{{ .Title }}</a>
-      </p>
+{{ if index .Site.Data.repo.tags.dates .Title }}
+  {{ $latest := false }}
+  {{ if eq ( printf "v%s" $.Site.Params.releaseVersionLatest ) .Title }}
+    {{ $latest = true }}
+  {{ end }}
+  <div class="content">
+    <div class="columns">
+      <div class="column is-one-fifth">
+        <h2 id="{{ .Title | anchorize }}"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      </div>
+      <div class="column">
+        <nav class="level">
+          <div class="level-left">
+            {{ with index .Site.Data.repo.tags.dates .Title }}
+              <div class="level-item">
+                <p class="subtitle is-5">
+                  <strong><time datetime="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}" title="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}">{{ . | dateFormat "January 2, 2006" }}</strong></time>
+                </p>
+              </div>
+            {{ end }}
+            {{ if $latest }}
+              <div class="level-item">
+                <span class="tag is-primary is-medium">latest</span>
+              </div>
+            {{ end }}
+          </div>
+        </nav>
+
+        <div>
+          {{- partial "theme/content" . -}}
+
+          {{ if $latest }}
+            <h3 id="{{ .Title | anchorize }}-artifacts">Artifacts</h3>
+
+            {{ partial "release/artifacts.html" . }}
+          {{ end }}
+        </div>
+      </div>
     </div>
-    {{ with index .Site.Data.repo.tags.dates .Title }}
-      <p class="level-item">
-        <time datetime="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}" title="{{ . | dateFormat "2006-01-02T15:04:05Z07:00" }}">{{ . | dateFormat "January 2, 2006" }}</time>
-      </p>
-    {{ end }}
   </div>
-</nav>
+{{ end }}
