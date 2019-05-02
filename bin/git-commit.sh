@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 repo="$1"
 
 cd "$repo"
