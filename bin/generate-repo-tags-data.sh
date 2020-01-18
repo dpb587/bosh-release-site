@@ -11,9 +11,7 @@ cd "$repo"
 
 (
   echo 'dates:'
-  git log --tags --simplify-by-decoration --pretty="format:%D: %ai" \
-    | sed 's#^HEAD -> master, ##' \
-    | sed 's#, origin/master:#:#' \
-    | grep -E '^tag: [^ ]+:' \
-    | sed 's#^tag: #  #'
+  for tag in $( git tag -l ); do
+    echo "$tag: $( git log -n1 --pretty='format:%ai' "$tag" )"
+  done
 ) > "$sitedir/data/repo/tags.yml"
