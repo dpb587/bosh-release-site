@@ -1,4 +1,4 @@
-{{ $releaseName := $.Param "boshReleaseName" }}
+{{ $releaseName := default .Site.Params.boshReleaseName .Params.boshReleaseName }}
 {{ $releaseVersion := default .Site.Params.releaseVersionLatest .Params.boshReleaseVersion }}
 
 {{ range $metalink := .Site.Data.releases.artifacts }}{{ range $file := $metalink.files }}{{ if eq $file.version $releaseVersion }}
