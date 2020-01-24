@@ -1,5 +1,9 @@
-{{ $releaseName := default .Site.Params.boshReleaseName .Params.boshReleaseName }}
-{{ $releaseVersion := default .Site.Params.releaseVersionLatest .Params.boshReleaseVersion }}
+{{ $releaseName := .Site.Params.boshReleaseName }}
+{{ $releaseVersion := default "latest" .Site.Params.releaseVersionLatest }}
+{{ with .Params }}
+  {{ $releaseName = default $releaseName .boshReleaseName }}
+  {{ $releaseVersion = default $releaseVersion .boshReleaseVersion }}
+{{ end }}
 
 {{ range $metalink := .Site.Data.releases.artifacts }}{{ range $file := $metalink.files }}{{ if eq $file.version $releaseVersion }}
 
